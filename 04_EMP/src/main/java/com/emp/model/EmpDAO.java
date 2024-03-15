@@ -30,8 +30,9 @@ public class EmpDAO {
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "goott";
 		String password = "992992";
-		//1단계: 오라클 드라이버를 메모리로 로딩
+		
 		try {
+			//1단계: 오라클 드라이버를 메모리로 로딩
 			Class.forName(driver);
 			System.out.println("오라클드라이버 메모리 로딩 완료");
 			
@@ -53,7 +54,7 @@ public class EmpDAO {
 		try {
 			pstmt = con.prepareStatement(sql);
 			//5단계: SQL 문을 DB에 전송 및 실행.
-			rs = pstmt.executeQuery(sql);
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				EmpDTO dto = new EmpDTO();

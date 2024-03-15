@@ -17,8 +17,8 @@ import com.emp.model.EmpDTO;
  * Servlet implementation class SelectServlet
  */
 @WebServlet("/select")
-public class SelectServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	public class SelectServlet extends HttpServlet {
+		private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
