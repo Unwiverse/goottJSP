@@ -1,4 +1,9 @@
 package com.emp.model;
+
+/*
+ * DTO(데이터 전송 객체, Data Transfer Object)
+ * DTO는 주로 데이터 전송을 위한 용도로 사용
+ */
 //DB 상의 EMP 테이블 컬럼명과 유사하게 멤버구성
 
 public class EmpDTO {
