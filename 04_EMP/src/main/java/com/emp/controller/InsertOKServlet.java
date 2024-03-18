@@ -41,7 +41,7 @@ public class InsertOKServlet extends HttpServlet {
 		int emp_mgr = Integer.parseInt(request.getParameter("mgrNo").trim());
 		int emp_sal = Integer.parseInt(request.getParameter("sal").trim());
 		int emp_comm = Integer.parseInt(request.getParameter("comm").trim());
-		int emp_deptno = Integer.parseInt(request.getParameter("deptno").trim());
+		int emp_deptno = Integer.parseInt(request.getParameter("deptNo").trim());
 		
 		//2단계: 넘어온 데이터들을 DB에 전송해줘야함.
 		//		전송 시 DTO 이용한다.
