@@ -78,18 +78,98 @@ public class EmpDAO {
 		  return list;
 		
 		} //selectEmpList() 메서드 end
-		  //DEPT 테이블의 전체 부서 리스트를 조회하는 메서드.
-	public List<DeptDTO> getDeptList() {
-		List<DeptDTO> list = new ArrayList<DeptDTO>();
-		
-	try {
-			//3단계: sql문 작성.
-			sql = "select * from dept order by deptno";
+	
+	// EMP 테이블의 담당업무를 조회하는 메서드.
+		public List<String> getJobList() {
 			
-			//4단계: SQL문을 데이터베이스 전송 객체에 저장
-			pstmt = con.prepareStatement(sql);
-			//5단계: SQL 문을 DB에 전송 및 실행.
-			rs = pstmt.executeQuery(sql);
+			List<String> jobList = new ArrayList<String>();
+			
+			
+			try {
+				// 3단계 : 데이터베이스에 전송할 SQL문 작성.
+				sql = "select distinct(job) from emp order by job";
+				
+				// 4단계 : SQL문을 데이터베이스 전송 객체에 저장.
+				pstmt = con.prepareStatement(sql);
+				
+				// 5단계 : SQL문을 데이터베이스에 전송 및 실행.
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					String job = rs.getString("job");
+					
+					jobList.add(job);
+				}
+				
+				// 6단계 : DB와 연결되어 있던 자원 종료.
+				rs.close(); pstmt.close(); // con.close();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return jobList;
+		}  // getJobList()() 메서드 end
+		
+		
+		// EMP 테이블에서 관리자를 조회하는 메서드.
+		public List<EmpDTO> getMgrList() {
+			
+			List<EmpDTO> mgrList = new ArrayList<EmpDTO>();
+			
+			
+			try {
+				// 3단계 : 데이터베이스에 전송할 SQL문 작성.
+				sql = "select * from emp where empno in(select distinct(mgr) from emp)";
+				
+				// 4단계 : SQL문을 데이터베이스 전송 객체에 저장.
+				pstmt = con.prepareStatement(sql);
+				
+				// 5단계 : SQL문을 데이터베이스에 전송 및 실행.
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					EmpDTO dto = new EmpDTO();
+					
+					dto.setEmpno(rs.getInt("empno"));
+					dto.setEname(rs.getString("ename"));
+					dto.setJob(rs.getString("job"));
+					dto.setMgr(rs.getInt("mgr"));
+					dto.setHiredate(rs.getString("hiredate"));
+					dto.setSal(rs.getInt("sal"));
+					dto.setComm(rs.getInt("comm"));
+					dto.setDeptno(rs.getInt("deptno"));
+					
+					mgrList.add(dto);
+				}
+				
+				// 6단계 : DB와 연결되어 있던 자원 종료.
+				//rs.close(); pstmt.close(); con.close();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return mgrList;
+		}  // getMgrList() 메서드 end
+		
+		
+		  //DEPT 테이블의 전체 부서 리스트를 조회하는 메서드.
+			public List<DeptDTO> getDeptList() {
+				List<DeptDTO> list = new ArrayList<DeptDTO>();
+				
+			try {
+					//3단계: sql문 작성.
+					sql = "select * from dept order by deptno";
+					
+					//4단계: SQL문을 데이터베이스 전송 객체에 저장
+					pstmt = con.prepareStatement(sql);
+					//5단계: SQL 문을 DB에 전송 및 실행.
+					rs = pstmt.executeQuery(sql);
 			
 			while(rs.next()) {
 				DeptDTO dto = new DeptDTO();
@@ -105,7 +185,7 @@ public class EmpDAO {
 				
 			}
 			//6단계: DB와 연결돼있던 자원 종료
-			rs.close(); pstmt.close(); con.close();
+			//rs.close(); pstmt.close(); con.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -113,39 +193,41 @@ public class EmpDAO {
 		return list;
 	}// 메섣 end
 	
-		//EMP 테이블에 사원을 등록하는 메서드
-		public int insertEmp(EmpDTO dto) {
-		int result= 0;
-		
-		try {
-		// 3단계: DB에 전송할 sql문
-		sql = "insert into emp values(?, ?, ?, ?, sysdate, ?, ?, ?)";
-		
-		//4단계: sql문을 DB 전송 객체에 저장
-		pstmt = con.prepareStatement(sql);
-		
-		//4-1단계: ?(플레이스홀더)에 데이터 저장
-		pstmt.setInt(1, dto.getEmpno()); //setInt(), setString: 플레이스 홀더에 들어갈 데이터와 인덱스를 지정하는 메서드
-		pstmt.setString(2, dto.getEname());
-		pstmt.setString(3, dto.getJob());
-		pstmt.setInt(4, dto.getMgr());
-		pstmt.setInt(5, dto.getSal());
-		pstmt.setInt(6, dto.getComm());
-		pstmt.setInt(7, dto.getDeptno());
-		
-		
-		
-		//5단계: sql문을 dB에 전송 및 실행
-		result = pstmt.executeUpdate();
-		//6단계: dB와 연결돼있는 자원 종료
-		pstmt.close(); con.close();
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-			
-		}	//insertEmp() 메서드 end
+			// EMP 테이블에 사원을 등록하는 메서드.
+			public int insertEmp(EmpDTO dto) {
+				
+				int result = 0;
+				
+				
+				try {
+					// 3단계 : 데이터베이스에 전송할 SQL문 작성.
+					sql = "insert into emp values(?, ?, ?, ?, sysdate, ?, ?, ?)";
+					
+					// 4단계 : SQL문을 데이터베이스 전송 객체에 저장.
+					pstmt = con.prepareStatement(sql);
+					
+					// 4-1단계 : ?(플레이스 홀더)에 데이터를 저장.
+					pstmt.setInt(1, dto.getEmpno());
+					pstmt.setString(2, dto.getEname());
+					pstmt.setString(3, dto.getJob());
+					pstmt.setInt(4, dto.getMgr());
+					pstmt.setInt(5, dto.getSal());
+					pstmt.setInt(6, dto.getComm());
+					pstmt.setInt(7, dto.getDeptno());
+					
+					// 5단계 : SQL문을 데이터베이스에 전송 및 실행.
+					result = pstmt.executeUpdate();
+					
+					// 6단계 : 데이터베이스와 연결되어 있던 자원 종료.
+					pstmt.close(); con.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				return result;
+			}  // insertEmp() 메서드 end
 	
 		
 		//사원번호에 대항하는 사원의 상세 정보를 조회하는 메서드.
@@ -179,9 +261,9 @@ public class EmpDAO {
 			
 			}
 				//6단계: dB와 연결돼있는 자원 종료
-			rs.close(); 
-			pstmt.close(); 
-			con.close();
+				/*
+				 * rs.close(); pstmt.close(); con.close();
+				 */
 			
 			
 			} catch (SQLException e) {
@@ -191,7 +273,65 @@ public class EmpDAO {
 			return dto;
 			
 			}//메서드 end
-	
+		
+		//사원번호에 해당하는 사원의 수정하는 메서드.
+		public int updateEmp(EmpDTO dto) {
+			int result = 0;
+			
+			// 3단계: 데이터베이스에 전송할 SQL문 작성.
+			sql = "update emp set job =?, mgr=?, sal=?, comm=?, "
+					+ "deptno=? where empno=?";
+			
+			try {
+			//4단계: sql문을 DB 전송 객체에 저장.
+			pstmt = con.prepareStatement(sql);
+			
+			//4-1단계: SQL문을 DB데이터베이스 전송 객체에 저장
+			pstmt.setString(1, dto.getJob());
+			pstmt.setInt(2, dto.getMgr());
+			pstmt.setInt(3, dto.getSal());
+			pstmt.setInt(4, dto.getComm());
+			pstmt.setInt(5, dto.getDeptno());
+			pstmt.setInt(6, dto.getEmpno());
+			
+			//5단계: SQL문을 DB에 전송 및 실행.
+			result = pstmt.executeUpdate();
+			//6단계: DB에 연결돼있던 자원 종료.
+			pstmt.close(); con.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			return result;
+			
+		}//updateEmp() 메서드 end
+		//사원번호에 해당하는 사원을 DB에서 삭제하는 메서드
+		public int deleteEmp(int num) {
+			int result =0;
+			
+			try {
+			//3단계: 데이터베이스에 전송할 sql문 작성
+			sql = "delete from emp where empno = ?";
+			
+			//4단계: sql문을 데이터베이스 전송 객체에 저장
+			pstmt = con.prepareStatement(sql);
+			
+			//4-1단계: ?(플레이스 홀더)에 값 저장
+			pstmt.setInt(1, num);
+			
+			//5단계: sql문을 DB에 전송 및 실행
+			result= pstmt.executeUpdate();
+			
+			//6단계: 자원종료
+			pstmt.close(); con.close();
+			
+			} catch(Exception e) {
+				e.printStackTrace();
+				
+			}
+			return result;
+			
+			
+		}
 	
 	
 }

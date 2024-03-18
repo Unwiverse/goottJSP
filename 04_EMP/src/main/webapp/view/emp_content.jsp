@@ -29,11 +29,11 @@
 			</tr>
 			<tr>
 				<th>사원 이름</th>
-				<th> <%=cont.getEmpno() %></th>
+				<th> <%=cont.getEname() %></th>
 			</tr>
 			<tr>
 				<th>담당 업무</th>
-				<th> <%=cont.getEname() %></th>
+				<th> <%=cont.getJob() %></th>
 			</tr>
 			<tr>
 				<th>관리자번호</th>
@@ -73,7 +73,18 @@
 		
 		
 		</table>
+		<br>
 		
+		<input type="button" value="사원수정"
+			onclick="location.href='update?no=<%=cont.getEmpno() %>'">&nbsp;&nbsp;
+			
+		<input type="button" value="사원삭제" onclick="if(confirm('ㄹㅇ?')) {
+					location.href='delete?no=<%=cont.getEmpno() %>'
+						} else {return;}">&nbsp;&nbsp;&nbsp;
+						
+		<input type="button" value="사원목록"
+		onclick="location.href='select'">
+			
 		</div>
 
 </body>

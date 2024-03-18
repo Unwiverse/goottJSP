@@ -40,7 +40,7 @@ public class ContentServlet extends HttpServlet {
 		
 		request.setAttribute("Content", cont);
 		
-		RequestDispatcher rd= 
+		RequestDispatcher rd = 
 		request.getRequestDispatcher("view/emp_content.jsp");
 		
 		rd.forward(request, response);
