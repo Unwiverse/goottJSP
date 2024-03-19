@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class MemberDAO {
 	//DB와 연결하는 객체
 	Connection con = null;
@@ -70,9 +72,10 @@ public class MemberDAO {
 		public List<MemberDTO> getMemberList() {
 			   List<MemberDTO> list = new ArrayList<MemberDTO>();
 			  //1~2단계: 오라클 드라이버 로딩 및 DB 연결 진행(한꺼번에)
-			   openConn();
+			   
 			 
 			 try {
+				 openConn();
 			   //3단계:DB에 전송할 sql문
 			   sql = "select * from member order by memno";
 			   //4단계: sql문을 DB 전송 객체에 인자로 전달
@@ -105,7 +108,220 @@ public class MemberDAO {
 			
 		} //getMemberList() 메서드 end
 		
-		//
+		//member 테이블에 회원을 추가하는 메서드
+		public int insertMember(MemberDTO dto) {
+			int result = 0, count = 0;
+			
+			//1~2단계: 오라클 드라이버 로딩 및 DB연결 시행
+			openConn();
+			
+			try {
+			//3단계: DB에 전송할 sql문 작성
+			sql = "select max(memno) from member";
+			//4단계: sql문을 dB 전송 객체에 인자로 전달.
+			pstmt = con.prepareStatement(sql);
+			//5단계: sql문을 dB에 전송 및 실행
+			rs= pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+			//3단계: DB에 전송할 sql문 작성
+			sql = "insert into member values(?, ?, ?, ?, ?, ?, ?, ?, sysdate)";
+			
+			//4단계: sql문을 DB전송 객체에 인자로 전달
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, count+1); 
+			pstmt.setString(2, dto.getMemid()); 
+			pstmt.setString(3, dto.getMemname()); 
+			pstmt.setString(4, dto.getPwd()); 
+			pstmt.setInt(5, dto.getAge());
+			pstmt.setInt(6, dto.getMileage());
+			pstmt.setString(7, dto.getJob());
+			pstmt.setString(8, dto.getAddr());
+			
+			//5단계: sql문을 dB에 전송 및 실행
+			result= pstmt.executeUpdate();
+			
+			
+					
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				//6단계: DB에 연결돼있던 자원 종료
+				closeConn(rs, pstmt, con);
+			}
+			return result;
+		}
+		//멤버번호에 해당하는 회원의 상세정보를 띄우는 메서드
+		public MemberDTO contentMember(int num) {
+			MemberDTO member = new MemberDTO();
+			//1~2단계: 오라클 드라이버 로딩 및 DB연결 시행
+			openConn();
+			
+			sql = "select * from member where MEMNO=?";
+			
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, num);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					member.setNum(rs.getInt("MEMNO"));
+					member.setMemid(rs.getString("MEMID"));
+					member.setMemname(rs.getString("MEMNAME"));
+					member.setAge(rs.getInt("AGE"));
+					member.setPwd(rs.getString("MEMPWD"));
+					member.setMileage(rs.getInt("MILEAGE"));
+					member.setJob(rs.getString("JOB"));
+					member.setAddr(rs.getString("ADDR"));
+					member.setRegdate(rs.getString("REGDATE"));
+				}
+					
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			return member;
+			
+		}
+		//멤버번호에 해당하는 회원 정보 수정 메서드
+		public int updateMember(MemberDTO dto) {
+			int result = 0;
+			
+			openConn();
+			
+			// 3단계: 데이터베이스에 전송할 SQL문 작성.
+			sql = "update member set memid=?, memname=?, mempwd=?, age=?, "
+					+ "mileage=?, job=?, addr=?, regdate=? where memno=?";
+			
+			try {
+			//4단계: sql문을 DB 전송 객체에 저장.
+			pstmt = con.prepareStatement(sql);
+			
+			//4-1단계: SQL문을 DB데이터베이스 전송 객체에 저장
+			pstmt.setString(1, dto.getMemid());
+			pstmt.setString(2, dto.getMemname());
+			pstmt.setString(3, dto.getPwd());
+			pstmt.setInt(4, dto.getAge());
+			pstmt.setInt(5, dto.getMileage());
+			pstmt.setString(6, dto.getJob());
+			pstmt.setString(7, dto.getRegdate());
+			
+			//5단계: SQL문을 DB에 전송 및 실행.
+			result = pstmt.executeUpdate();
+			
+	
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				//6단계: DB에 연결돼있던 자원 종료.
+				closeConn(rs, pstmt, con);
+			}
+			return result;
+			
+		} //updateMember() 메서드 end
+		//member 테이블에서 회원번호에 해당하는 회원을 삭제하는 메서드
+		public int deleteMember(int no) {
+			int result = 0;
+			//1~2단계: 오라클 드라이버 로딩 및 연동 작업
+			openConn();
+			
+			//3단계: DB에 전송할  sql문
+			sql= "delete from member where memno=?";
+			
+			try {
+			//4단계: SQL문을 DB 전송 객체의 인자로 전달 
+			pstmt=con.prepareStatement(sql);
+			//4-1단계: 플레이스 홀더에 데이터 배정
+			pstmt.setInt(1, no);
+			
+			//5단계: sql문을 DB에 전송 및 실행
+			result = pstmt.executeUpdate();
+			
+			
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				//6단계: DB와 연결된 자원 종료
+				closeConn(pstmt, con);
+			}
+			return result;
+			
+		} //deleteMember() 메서드 end
+		
+		//회원 번호 순번 작업 하는 메서드
+		public void updateSequence(int no) {
+			
+			
+			sql= "update member set memno = memno-1 where memno > ?";
+			
+			try {
+				openConn();
+			pstmt=con.prepareStatement(sql);
+			//4-1단계: 플레이스 홀더에 데이터 배정
+			pstmt.setInt(1, no);
+			
+			//5단계: sql문을 DB에 전송 및 실행
+			pstmt.executeUpdate();
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				closeConn(pstmt, con);
+			}
+		} //메서드end
+		
+		//검색어에 해당하는 회원을 조회하는 메서드
+		public List<MemberDTO> searchMemberList(String field, String keyword) {
+			List<MemberDTO> searchList = new ArrayList<MemberDTO>();
+			
+			openConn();
+			
+			//3단계: Db에 전송할 sql문 작성
+			sql= "select * from member ";
+			
+			try {
+			if(field.equals("id")) {
+				sql += "where memid like ? ";
+			} else if(field.equals("name")) {
+				sql+= "where memname like ? ";
+			} else if(field.equals("job")) {
+				sql += "where job like ?";
+			} else {
+				sql += "where addr like ?";
+			}
+			
+			sql += "order by memno desc";
+					
+			pstmt=con.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+keyword+"%");
+			
+		
+			rs = pstmt.executeQuery();
+			
+			  while(rs.next()) {
+				   MemberDTO dto = new MemberDTO();
+				   dto.setNum(rs.getInt("memno"));
+				   dto.setMemid(rs.getString("memid"));
+				   dto.setMemname(rs.getString("memname"));
+				   dto.setPwd(rs.getString("mempwd"));
+				   dto.setAge(rs.getInt("age"));
+				   dto.setMileage(rs.getInt("mileage"));
+				   dto.setJob(rs.getString("job"));
+				   dto.setAddr(rs.getString("addr"));
+				   dto.setRegdate(rs.getString("regdate"));
+				   searchList.add(dto);
+				   }
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			return searchList;
+		}
 		
 }
 			

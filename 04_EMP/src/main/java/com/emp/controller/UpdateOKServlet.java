@@ -29,7 +29,7 @@ public class UpdateOKServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//사원 수정 폼 페이지에서 넘어온 데이터를 DB에 수정해서 저장시키는 비지니스 로직
 		
-		System.out.println("여기 오나?");
+	
 		//요청과 응답 시에 한글 깨짐을 방지하는 설정
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
@@ -71,7 +71,7 @@ public class UpdateOKServlet extends HttpServlet {
 		if(check >0) {
 			out.println("<script>");
 			out.println("alert('사원정보수정성')");
-			out.println("location.href='content?no="+dto.getEmpno()+"'");
+			out.println("location.href='content?no="+dto.getEmpno()+"'"); //?뒤에는 url이 
 			out.println("</script>");
 		} else {
 			out.println("<script>");
