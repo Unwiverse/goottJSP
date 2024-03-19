@@ -195,7 +195,7 @@ public class MemberDAO {
 			
 			// 3단계: 데이터베이스에 전송할 SQL문 작성.
 			sql = "update member set memid=?, memname=?, mempwd=?, age=?, "
-					+ "mileage=?, job=?, addr=?, regdate=? where memno=?";
+					+ "mileage=?, job=?, addr=? where memno=?";
 			
 			try {
 			//4단계: sql문을 DB 전송 객체에 저장.
@@ -208,7 +208,8 @@ public class MemberDAO {
 			pstmt.setInt(4, dto.getAge());
 			pstmt.setInt(5, dto.getMileage());
 			pstmt.setString(6, dto.getJob());
-			pstmt.setString(7, dto.getRegdate());
+			pstmt.setString(7, dto.getAddr());
+			pstmt.setInt(8, dto.getNum());
 			
 			//5단계: SQL문을 DB에 전송 및 실행.
 			result = pstmt.executeUpdate();
