@@ -65,7 +65,7 @@ public class UpdateOKServlet extends HttpServlet {
 		//3단계: DAO객체를 생성해서 수정 작업 진행.
 		EmpDAO dao = new EmpDAO();
 		int check = dao.updateEmp(dto);
-		System.out.println(check);
+		
 		PrintWriter out = response.getWriter();
 		
 		if(check >0) {
