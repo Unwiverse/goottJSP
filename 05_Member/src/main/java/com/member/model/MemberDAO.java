@@ -36,8 +36,8 @@ public class MemberDAO {
 	public void openConn() {
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "goott";
-		String password = "992992";
+		String user = "operation";
+		String password = "1234";
 		
 		try {
 			//1단계: 오라클 드라이버를 메모리로 로딩 작업 진행.
@@ -281,7 +281,7 @@ public class MemberDAO {
 			openConn();
 			
 			//3단계: Db에 전송할 sql문 작성
-			sql= "select * from member ";
+			sql= "select * from member";
 			
 			try {
 			if(field.equals("id")) {

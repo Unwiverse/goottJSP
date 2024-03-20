@@ -28,8 +28,8 @@ public class EmpDAO {
 		// TODO Auto-generated constructor stub
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "goott";
-		String password = "992992";
+		String user = "operation";
+		String password = "1234";
 		
 		try {
 			//1단계: 오라클 드라이버를 메모리로 로딩
@@ -258,6 +258,7 @@ public class EmpDAO {
 			dto.setSal(rs.getInt("sal"));
 			dto.setComm(rs.getInt("comm"));
 			dto.setDeptno(rs.getInt("deptno"));
+			dto.setHiredate(rs.getString("hiredate"));
 			
 			}
 				//6단계: dB와 연결돼있는 자원 종료

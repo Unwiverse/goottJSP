@@ -26,8 +26,8 @@ public class BoardDAO {
     public void openConn() {
         String driver = "oracle.jdbc.driver.OracleDriver";
         String url = "jdbc:oracle:thin:@localhost:1521:xe";
-        String user = "goott";
-        String password = "992992";
+        String user = "operation";
+        String password = "1234";
 
         try {
             Class.forName(driver);
@@ -253,30 +253,69 @@ public class BoardDAO {
     			} finally {
     				closeConn(pstmt, con);
     			}
-    			
-    			
     		}
-    			//검색 메서드 
-    		/*public List<BoardDTO> searchMemberList(String field, String keyword) {
+    			
+    		
+    		//검색 메서드 
+    		public List<BoardDTO> searchBoardList(String field, String keyword) {
     			List<BoardDTO> searchList = new ArrayList<BoardDTO>();
     			
-    			openConn();
-    			sql = "select * from board";
+    			sql = "select * from board ";
     	
     			try {
-    				//if(field.equals("))
+    				openConn();
+    				if(field.equals("title")) {
+    					sql += " where board_title like ? ";
+    				} else if(field.equals("cont")) {
+    					sql += " where board_cont like ? ";
+    				} else if(field.equals("title_cont")) {
+    					sql += " where board_title like ? "
+    							+ " or board_cont like ? ";
+    				} else {
+    					sql += " where board_writer like ? ";
+    				}
+    				sql += " order by board_no desc";
+    				
+    				pstmt = con.prepareStatement(sql);
+    				
+    				if(field.equals("title_cont")) {
+    					pstmt.setString(1, "%"+keyword+"%");
+    					pstmt.setString(2, "%"+keyword+"%");
+    				}else {
+    					pstmt.setString(1, "%"+keyword+"%");
+    				}
+    				
+    				rs = pstmt.executeQuery();
+    				
+    				while(rs.next()) {
+    					
+					BoardDTO dto = new BoardDTO();
+					
+					dto.setBoard_no(rs.getInt("board_no"));
+					dto.setBoard_writer(rs.getString("board_writer"));
+					dto.setBoard_title(rs.getString("board_title"));
+					dto.setBoard_cont(rs.getString("board_cont"));
+					dto.setBoard_pwd(rs.getString("board_pwd"));
+					dto.setBoard_hit(rs.getInt("board_hit"));
+					dto.setBoard_date(rs.getString("board_date"));
+					dto.setBoard_update(rs.getString("board_update"));
+					
+					searchList.add(dto);
+    					
+    				}
     				
     			} catch(Exception e) {
     				e.printStackTrace();
-    			
- }*/
+    			} finally {
+    				closeConn(pstmt, rs, con);
+    			}
+    			return searchList;
+ 
+    			} // searchBoardList() 메서드 end
+    		}
     	
     	
     	
     	
     	
-    	
-    	
-    	
-}
 

@@ -15,7 +15,7 @@ import com.board.model.BoardDTO;
 /**
  * Servlet implementation class SearchServlet
  */
-@WebServlet("/search")
+@WebServlet("/search.go")
 public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,14 +32,19 @@ public class SearchServlet extends HttpServlet {
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//검색어에 해당하는 게시글 관련 리스트를 board 테이블에서 조회해 view 페이지로 이동시키는 비지니스 로직
-		request.setCharacterEncoding("UTF-8");
-		
-		String search_field = request.getParameter("field").trim();
-		String search_keyword = request.getParameter("keyword").trim();
-		
-		BoardDAO dao = BoardDAO.getInstance();
-		
-		//List<BoardDTO> searchList = dao.searchBoardList(search_field, search_keyword);
+	request.setCharacterEncoding("UTF-8");
+	
+	String search_field = request.getParameter("field").trim();
+	String search_keyword = request.getParameter("keyword").trim();
+	
+	BoardDAO dao = BoardDAO.getInstance();
+	
+	List<BoardDTO> searchList = dao.searchBoardList(search_field, search_keyword);
+	
+	request.setAttribute("Search", searchList);
+	
+	request.getRequestDispatcher("view/board_searchList.jsp")
+	.forward(request, response);
 		
 	}
 
