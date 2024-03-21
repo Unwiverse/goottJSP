@@ -26,8 +26,8 @@ public class BoardDAO {
     public void openConn() {
         String driver = "oracle.jdbc.driver.OracleDriver";
         String url = "jdbc:oracle:thin:@localhost:1521:xe";
-        String user = "operation";
-        String password = "1234";
+        String user = "goott";
+        String password = "992992";
 
         try {
             Class.forName(driver);
@@ -200,7 +200,7 @@ public class BoardDAO {
     			  return commence;
     		} //메서드 end
     		
-    		//board 테이블에서 게시글 번호에 게시글을 삭제하는 메서드
+    		//board 테이블에서 번호에 해당하는 게시글을 삭제하는 메서드
     		public int deleteBoard(int no, String pwd) {
     			int result=0;
     			

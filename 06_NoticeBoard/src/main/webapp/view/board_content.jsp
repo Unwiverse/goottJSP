@@ -40,7 +40,7 @@
             } else {
             %>
             <tr>
-                <td colspan="5" align="center">
+                <td align="center">
                     <h3>게시물이 없습니다.</h3>
                 </td>
             </tr>
