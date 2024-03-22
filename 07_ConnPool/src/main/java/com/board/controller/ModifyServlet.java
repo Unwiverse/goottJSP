@@ -36,6 +36,11 @@ public class ModifyServlet extends HttpServlet {
 			
 			BoardDTO content = dao.contentBoard(board_no);
 			
+			request.setAttribute("Modify", content);
+			
+			request.getRequestDispatcher("view/board_modify.jsp")
+					.forward(request, response);
+			
 			
 	}
 
