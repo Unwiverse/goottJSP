@@ -30,16 +30,27 @@
                         <td>${member.getJob()}</td>
                         <td>${member.getRegdate().substring(0, 10)}</td>
                     </tr>
+                  
             </c:if>
             
             <c:if test="${empty member}">
-                <tr>
-                    <td colspan="4" align="center">
-                        <h3>회원이 없습니다.</h3>
-                    </td>
-                </tr>
+            <tr>
+                <td colspan="4" align="center">
+                    <h3>회원이 없습니다.</h3>
+                </td>
+            </tr>
             </c:if>
-        </table>
-    </div>
+          </table>
+		<br><br> 
+		
+		  <c:url var="deleteURL" value="delete.go">
+	       	<c:param name="num" value="${member.getNum()}" />
+	   	  </c:url>   
+    	      		
+          <input type="button" value="회원삭제" 
+          onclick="if(confirm('삭제하시겠습니까?')) {
+           location.href='${deleteURL}' 
+           } else {return;}">&nbsp;&nbsp;
+        </div>
 </body>
 </html>

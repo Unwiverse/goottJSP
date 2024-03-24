@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.member.action.Action;
+import com.member.action.DeleteAction;
 import com.member.action.MemberListAction;
 import com.member.action.ShowInfoAction;
 
@@ -37,6 +38,8 @@ public class FrontController extends HttpServlet {
 			
 		} else if(command.equals("info.go")) {
 			action = new ShowInfoAction();
+		} else if(command.equals("delete.go")) {
+			action = new DeleteAction();
 		}
 		String viewpage = action.execute(request, response);
 		
