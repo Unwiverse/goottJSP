@@ -9,6 +9,67 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+        h3 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            border: 2px solid #007bff;
+            background-color: #fff;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #cce5ff;
+        }
+        input[type="button"] {
+            padding: 8px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+        .search-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+        select, input[type="text"], input[type="submit"] {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 	<div align="center">
@@ -47,6 +108,28 @@
 					</tr>
 				</c:if>
 				</table>
+				<br><br> 
+				<input type="button" value="회원등록"
+									onclick="location.href='insert.go'">
+									
+				<br><br>
+				<%-- 검색 관련 폼 --%>
+				<form method="post" action="<%=request.getContextPath() %>/search.go">
+					<select name="field">
+						<option value="id">아이디</option>
+						<option value="name">이름</option>
+						<option value="job">직업</option>
+						<option value="addr">주소</option>
+				
+				
+			
+				</select>
+				<input type="text" name="keyword">
+				<input type="submit" value="검색">
+		
+		
+		
+		</form>
 	</div>
 		
 </body>

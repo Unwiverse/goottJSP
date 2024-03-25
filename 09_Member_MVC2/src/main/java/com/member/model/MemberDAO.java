@@ -174,4 +174,102 @@ public class MemberDAO {
 						closeConn(pstmt, con);
 					}
     			} //메서드end
+    			//멤버 테이블에서 회원을 추가하는 메서드
+    			public int insertMember(MemberDTO dto) {
+    				int result=0, count=0;
+    				openConn();
+    				sql="select max(memno) from member";
+    				
+    			try {
+    				pstmt =con.prepareStatement(sql);
+    				rs = pstmt.executeQuery();
+    				
+    				if(rs.next()) {
+    					count = rs.getInt(1)+1;
+    				}
+    				sql = "insert into member values(?, ?, ?, ?, ?, ?, ?, ?, sysdate)";
+    				pstmt =con.prepareStatement(sql);
+    				
+    				pstmt.setInt(1, count);
+    				pstmt.setString(2, dto.getMemid());
+    				pstmt.setString(3, dto.getMemname());
+    				pstmt.setString(4, dto.getPwd());
+    				pstmt.setInt(5, dto.getAge());
+    				pstmt.setInt(6, dto.getMileage());
+    				pstmt.setString(7, dto.getJob());
+    				pstmt.setString(8, dto.getAddr());
+    				
+    				result = pstmt.executeUpdate();
+    			} catch(Exception e) {
+    				e.printStackTrace();
+    			} finally {
+    				closeConn(pstmt, con, rs);
+    			} return result;
+    			}//메서드 end
+    			//member 테이블에서 회원 검색하는 메서드
+    			public List<MemberDTO> MemberSearch(String field, String keyword) {
+    				List<MemberDTO> searchList = new ArrayList<MemberDTO>();
+    				
+    				openConn();
+    				sql="select * from member ";
+    				
+    				try {
+    					if(field.equals("id")) {
+    						sql += " where memid like ? ";
+    					} else if(field.equals("name")) {
+    						sql+= " where memname like ? ";
+    					} else if(field.equals("job")) {
+    						sql += " where job like ? ";
+    					} else {
+    						sql += " where addr like ? ";
+    					}
+    					sql = sql+ " order by memno ";
+    					
+    					pstmt = con.prepareStatement(sql);
+    					pstmt.setString(1, "%"+keyword+"%");
+    					rs = pstmt.executeQuery();
+    					
+    					while(rs.next()) {
+    						MemberDTO dto = new MemberDTO();
+    						dto.setNum(rs.getInt("memno"));
+    						dto.setMemid(rs.getString("memid"));
+    						dto.setMemname(rs.getString("memname"));
+    						dto.setPwd(rs.getString("mempwd"));
+    						dto.setAge(rs.getInt("age"));
+    					    dto.setJob(rs.getString("job"));
+    						dto.setMileage(rs.getInt("mileage"));
+    						dto.setRegdate(rs.getString("regdate")); 
+    						searchList.add(dto);
+							}
+									
+							} catch(Exception e) {
+								e.printStackTrace();
+							} finally {
+								closeConn(pstmt, con, rs);
+							} return searchList;
+    				} //메서드 end
+    					//번호에 해당하는 회원 정보 수정 메서드
+    					public int updateMember(MemberDTO dto) {
+    						int result=0;
+    						
+    						openConn();
+    						sql = "update member set age=?, mileage=?, job=?, addr=? where memno=?";
+    						
+    						try {
+    							pstmt = con.prepareStatement(sql);
+    							pstmt.setInt(1, dto.getAge());
+    							pstmt.setInt(2, dto.getMileage());
+    							pstmt.setString(3, dto.getJob());
+    							pstmt.setString(4, dto.getAddr());
+    							pstmt.setInt(5, dto.getNum());
+    							
+    							System.out.println("SQL >> " + sql);
+    							result = pstmt.executeUpdate();
+    							
+    						} catch(Exception e) {
+    							e.printStackTrace();
+    						} finally {
+    							closeConn(pstmt, con);
+    						} return result;
+    					}
 }

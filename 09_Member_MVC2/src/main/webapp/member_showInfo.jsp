@@ -41,7 +41,15 @@
             </tr>
             </c:if>
           </table>
-		<br><br> 
+          
+          <c:url var="updateURL" value="update.go">
+			<c:param name="num" value="${member.getNum()}" />
+			</c:url>
+			
+			<input type="button" value="회원수정"
+			onclick="location.href='${updateURL}'">&nbsp;&nbsp;
+		
+		
 		
 		  <c:url var="deleteURL" value="delete.go">
 	       	<c:param name="num" value="${member.getNum()}" />
@@ -50,7 +58,7 @@
           <input type="button" value="회원삭제" 
           onclick="if(confirm('삭제하시겠습니까?')) {
            location.href='${deleteURL}' 
-           } else {return;}">&nbsp;&nbsp;
+           } else {return;}">
         </div>
 </body>
 </html>

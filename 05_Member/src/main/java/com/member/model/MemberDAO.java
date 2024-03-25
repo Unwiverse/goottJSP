@@ -278,53 +278,53 @@ public class MemberDAO {
 		public List<MemberDTO> searchMemberList(String field, String keyword) {
 			List<MemberDTO> searchList = new ArrayList<MemberDTO>();
 			
-			openConn();
-			
-			//3단계: Db에 전송할 sql문 작성
-			sql= "select * from member";
-			
-			try {
-			if(field.equals("id")) {
-				sql += "where memid like ? ";
-			} else if(field.equals("name")) {
-				sql+= "where memname like ? ";
-			} else if(field.equals("job")) {
-				sql += "where job like ?";
-			} else {
-				sql += "where addr like ?";
-			}
-			
-			sql += "order by memno desc";
+					openConn();
 					
-			pstmt=con.prepareStatement(sql);
+					//3단계: Db에 전송할 sql문 작성
+					sql= "select * from member";
+					
+					try {
+					if(field.equals("id")) {
+						sql += "where memid like ? ";
+					} else if(field.equals("name")) {
+						sql+= "where memname like ? ";
+					} else if(field.equals("job")) {
+						sql += "where job like ?";
+					} else {
+						sql += "where addr like ?";
+					}
+					
+					sql += "order by memno desc";
+							
+					pstmt=con.prepareStatement(sql);
+					
+					pstmt.setString(1, "%"+keyword+"%");
+					
+				
+					rs = pstmt.executeQuery();
 			
-			pstmt.setString(1, "%"+keyword+"%");
-			
-		
-			rs = pstmt.executeQuery();
-			
-			  while(rs.next()) {
-				   MemberDTO dto = new MemberDTO();
-				   dto.setNum(rs.getInt("memno"));
-				   dto.setMemid(rs.getString("memid"));
-				   dto.setMemname(rs.getString("memname"));
-				   dto.setPwd(rs.getString("mempwd"));
-				   dto.setAge(rs.getInt("age"));
-				   dto.setMileage(rs.getInt("mileage"));
-				   dto.setJob(rs.getString("job"));
-				   dto.setAddr(rs.getString("addr"));
-				   dto.setRegdate(rs.getString("regdate"));
-				   searchList.add(dto);
-				   }
-			} catch(Exception e) {
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-			return searchList;
+					  while(rs.next()) {
+						   MemberDTO dto = new MemberDTO();
+						   dto.setNum(rs.getInt("memno"));
+						   dto.setMemid(rs.getString("memid"));
+						   dto.setMemname(rs.getString("memname"));
+						   dto.setPwd(rs.getString("mempwd"));
+						   dto.setAge(rs.getInt("age"));
+						   dto.setMileage(rs.getInt("mileage"));
+						   dto.setJob(rs.getString("job"));
+						   dto.setAddr(rs.getString("addr"));
+						   dto.setRegdate(rs.getString("regdate"));
+						   searchList.add(dto);
+						   }
+					} catch(Exception e) {
+						e.printStackTrace();
+					} finally {
+						closeConn(rs, pstmt, con);
+					}
+					return searchList;
+				}
+				
 		}
-		
-}
 			
 			
 			

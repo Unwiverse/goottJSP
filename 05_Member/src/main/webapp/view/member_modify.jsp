@@ -14,7 +14,7 @@
 		<div align="center">
     <br>
     <hr style="color: blue" width="40%">
-    <h1>MEMBER 상세정보</h1>
+    <h1>MEMBER 정보 변경</h1>
     <hr style="color: blue" width="40%">
 	<form method="get" action="<%=request.getContextPath()%>/update_ok">
 	
