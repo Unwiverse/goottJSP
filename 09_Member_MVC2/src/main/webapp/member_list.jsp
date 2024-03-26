@@ -121,14 +121,9 @@
 						<option value="job">직업</option>
 						<option value="addr">주소</option>
 				
-				
-			
-				</select>
-				<input type="text" name="keyword">
-				<input type="submit" value="검색">
-		
-		
-		
+				    </select>
+						<input type="text" name="keyword">
+						<input type="submit" value="검색">
 		</form>
 	</div>
 		
