@@ -77,6 +77,23 @@
 				<a href="select.go?page=${page + 1}">▶</a>
 				<a href="select.go?page=${allPage}">▶▶</a>
 			</c:if>
+			
+			<br><br>
+			
+			  <%-- 검색 관련 처리 부분 --%>
+		   <form method="post"
+		      action="<%=request.getContextPath() %>/search.go">
+		   
+		      <select name="field">
+		         <option value="title">제목</option>
+		         <option value="cont">내용</option>
+		         <option value="title_cont">제목+내용</option>
+		         <option value="writer">작성자</option>
+		      </select>
+		      
+		      <input type="text" name="keyword">&nbsp;&nbsp;&nbsp;
+		      <input type="submit" value="검색">
+		   </form>
 
 	</div>
 

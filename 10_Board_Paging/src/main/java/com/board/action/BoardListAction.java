@@ -50,7 +50,11 @@ public class BoardListAction implements Action {
 		
 		//전체 게시물 수 확인 메서드 호출
 		totalRecord = dao.getBoardCount();
-		//전체 게시물 수를 한 페이지당 보여줄 게시물의 수로 나눠주면 전체 페이지 수가 나옴
+		/*
+		 * 전체 게시물 수를 한 페이지당 보여줄 게시물의 수로 나눠주면 전체 페이지 수가 나옴. 
+		 * 이 때, 검색 전체 페이지 수가 나올 때 나머지가
+		 * 있으면 무조건 전체 페이지 수를 하나 올려 주어야 함.
+		 */
 		allPage = (int)Math.ceil(totalRecord/(double)rowsize);
 		
 		if(endBlock>allPage) { //

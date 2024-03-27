@@ -259,4 +259,133 @@ public class BoardDAO {
 	    				closeConn(pstmt, con);
 	    			} return okornot;
 	    		}
+	    		// board 테이블에서 검색어에 해당하는 게시물의 수를
+	    		// 조회하는 메서드.
+	    		public int searchListCount(
+	    				String field, String keyword) {
+	    			
+	    			int count = 0;
+	    			
+	    			
+	    			try {
+	    				openConn();
+	    				
+	    				sql = "select count(*) from board ";
+	    				
+	    				if(field.equals("title")) {
+	    					sql += " where board_title like ?";
+	    				}else if(field.equals("cont")) {
+	    					sql += " where board_cont like ?";
+	    				}else if(field.equals("title_cont")) {
+	    					sql += " where board_title like ? "
+	    							+ " or board_cont like ?";
+	    				}else {
+	    					sql += "where board_writer like ?";
+	    				}
+	    				
+	    				sql += " order by board_no desc";
+	    				
+	    				pstmt = con.prepareStatement(sql);
+	    				
+	    				if(field.equals("title_cont")) {
+	    					pstmt.setString(1, "%"+keyword+"%");
+	    					pstmt.setString(2, "%"+keyword+"%");
+	    				}else {
+	    					pstmt.setString(1, "%"+keyword+"%");
+	    				}
+	    				
+	    				rs = pstmt.executeQuery();
+	    				
+	    				if(rs.next()) {
+	    					
+	    					count = rs.getInt(1);
+	    				}
+	    				
+	    			} catch (Exception e) {
+	    				
+	    				e.printStackTrace();
+	    			} finally {
+	    				closeConn(pstmt, con, rs);
+	    			}
+	    			
+	    			return count;
+	    		}  // searchListCount() 메서드 end
+	    		
+	    		
+	    		// board 테이블에서 검색한 내용을 가지고 페이징
+	    		// 처리를 하는 메서드.
+	    		public List<BoardDTO> getSearchBoardList(
+	    				String field, String keyword, int page, int rowsize) {
+	    			
+	    			List<BoardDTO> searchList = new ArrayList<BoardDTO>();
+	    			
+	    			// 해당 페이지에서 시작 번호
+	    			int startNo = (page * rowsize) - (rowsize - 1);
+	    			
+	    			// 해당 페이지에서 끝번호
+	    			int endNo = (page * rowsize);
+	    			
+	    			
+	    			try {
+	    				openConn();
+	    				
+	    				sql = "select * from "
+	    						+ "(select row_number() "
+	    						+ " over(order by board_no desc) as rnum, "
+	    						+ " b.* from board b ";
+	    				
+	    				if(field.equals("title")) {
+	    					sql += " where board_title like ?)";
+	    				}else if(field.equals("cont")) {
+	    					sql += " where board_cont like ?)";
+	    				}else if(field.equals("title_cont")) {
+	    					sql += "where board_title like ? "
+	    							+ " or board_cont like ?)";
+	    				}else {
+	    					sql += " where board_writer like ?)";
+	    				}
+	    				
+	    				sql += " where rnum >= ? and rnum <= ?";
+	    				
+	    				pstmt = con.prepareStatement(sql);
+	    				
+	    				if(field.equals("title_cont")) {
+	    					pstmt.setString(1, "%"+keyword+"%");
+	    					pstmt.setString(2, "%"+keyword+"%");
+	    					pstmt.setInt(3, startNo);
+	    					pstmt.setInt(4, endNo);
+	    				}else {
+	    					pstmt.setString(1, "%"+keyword+"%");
+	    					pstmt.setInt(2, startNo);
+	    					pstmt.setInt(3, endNo);
+	    				}
+	    				
+	    				rs = pstmt.executeQuery();
+	    				
+	    				while(rs.next()) {
+	    					
+	    					BoardDTO dto = new BoardDTO();
+	    					
+	    					dto.setBoard_no(rs.getInt("board_no"));
+	    					dto.setBoard_writer(rs.getString("board_writer"));
+	    					dto.setBoard_title(rs.getString("board_title"));
+	    					dto.setBoard_cont(rs.getString("board_cont"));
+	    					dto.setBoard_pwd(rs.getString("board_pwd"));
+	    					dto.setBoard_hit(rs.getInt("board_hit"));
+	    					dto.setBoard_date(rs.getString("board_date"));
+	    					dto.setBoard_update(rs.getString("board_update"));
+	    					
+	    					searchList.add(dto);
+	    					
+	    				}
+	    				
+	    			} catch (Exception e) {
+	    				
+	    				e.printStackTrace();
+	    			} finally {
+	    				closeConn(pstmt, con, rs);
+	    			}
+	    			
+	    			return searchList;
+	    		}  // getSearchBoardList() 메서드 end
 }
