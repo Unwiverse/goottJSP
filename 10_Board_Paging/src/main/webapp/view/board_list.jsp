@@ -25,18 +25,21 @@
 			
 			<tr>
 				<th>게시물 번호</th> <th>게시글 제목</th>
-				<th>게시글 조회수</th> <th>작성일자</th>
+				<th>게시글 조회수</th> <th>작성일자</th> <th>상세정보</th>
 			</tr>
 			
 			<c:set var="list" value="${List }"></c:set>
 			<c:if test="${!empty list }">
-				<c:forEach items="${list }" var="dto">
-					<tr>
-						<td> ${dto.getBoard_no() }</td>
-						<td> ${dto.getBoard_title() }</td>
-						<td> ${dto.getBoard_hit() }</td>
-						<td> ${dto.getBoard_date().substring(0, 10) }</td>
-					</tr>
+			<c:forEach items="${list }" var="dto">
+				<tr>
+					<td> ${dto.getBoard_no() }</td>
+					<td> ${dto.getBoard_title() }</td>
+					<td> ${dto.getBoard_hit() }</td>
+					<td> ${dto.getBoard_date().substring(0, 10) }</td>
+					<td> <input type="button" value="상세정보" 
+					onclick="location.href='content.go?num=${dto.getBoard_no()}'">
+					</td>
+				</tr>
 					
 				</c:forEach>
 			</c:if>
@@ -47,10 +50,10 @@
 						</td>
 				</tr>
 			</c:if>
-		</table>
-		<br><br>
-		<input type="button" value="글쓰기" onclick="location.href='insert.go'">
-		<br><br>
+			</table>
+			<br><br>
+			<input type="button" value="글쓰기" onclick="location.href='write.go'">
+			<br><br>
 		
 		<%-- 페이징 처리 --%>
 			<c:if test="${page > block }">
@@ -71,7 +74,7 @@
 			</c:forEach>
 			
 			<c:if test="${endBlock < allPage}">
-				<a href="select.go?page=${endBlock + 1}">▶</a>
+				<a href="select.go?page=${page + 1}">▶</a>
 				<a href="select.go?page=${allPage}">▶▶</a>
 			</c:if>
 

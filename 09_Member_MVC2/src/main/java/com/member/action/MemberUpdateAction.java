@@ -12,7 +12,9 @@ public class MemberUpdateAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
 		int member_no = Integer.parseInt(request.getParameter("num"));
+		
 		MemberDAO dao = MemberDAO.getInstance();
 		
 		MemberDTO member = dao.showInfo(member_no);

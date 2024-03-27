@@ -31,7 +31,7 @@
             %>
             <tr>
                 <td> <%=Content.getBoard_no() %> </td>
-                <td><%=Content.getBoard_title() %></td> 
+                <td><%=Content.getBoard_title() %> </td> 
                 <td> <%=Content.getBoard_writer() %> </td>
                 <td> <%=Content.getBoard_hit() %> </td>
                 <td> <%=Content.getBoard_date() %> </td>

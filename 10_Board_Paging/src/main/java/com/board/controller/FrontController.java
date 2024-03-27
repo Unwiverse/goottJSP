@@ -24,6 +24,7 @@ public class FrontController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		//getRequestURI(): "/프로젝트명/파일명(*.go)"라는 문자열을 반환해주는 메서드
+		System.out.println("========================");
 		String uri = request.getRequestURI();
 		System.out.println("1: "+uri);
 		
@@ -57,7 +58,7 @@ public class FrontController extends HttpServlet {
 		 * 
 		 */
 		
-		 FileInputStream fis = new FileInputStream("C:\\NCS\\workspace(jsp)\\10_Board_Paging\\src\\main\\java\\com\\board\\controller\\mapping.properties");
+		 FileInputStream fis = new FileInputStream("C:\\Users\\goott3\\git\\goottJSP\\10_Board_Paging\\src\\main\\java\\com\\board\\controller\\mapping.properties");
 		 prop.load(fis);
 		 String value = prop.getProperty(command);
 		 System.out.println("value: "+value);
@@ -112,12 +113,12 @@ public class FrontController extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			 } else {
-				 //value에 들어온 값이 "excute|...."가 아닐 때
-				 forward = new ActionForward();
-				 forward.setRedirect(false);
-				 forward.setPath(value);
-			 } 
+				} else {
+					 //value에 들어온 값이 "excute|...."가 아닐 때
+					 forward = new ActionForward();
+					 forward.setRedirect(false);
+					 forward.setPath(value);
+				} 
 		 
 		 	 if(forward != null) {
 				 if(forward.isRedirect()) { //true인 경우

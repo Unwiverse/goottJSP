@@ -16,7 +16,7 @@
 			<hr>	
 			<br><br>
 			
-			<table>
+			<table border="1">
 				<tr>
 					<th>게시물 번호</th> <th>작성자</th>
 					<th>제목</th> <th>내용</th> <th>비번</th>
@@ -25,19 +25,15 @@
 				
 				<c:set var="content" value="${content }"/>
 				<c:if test="${!empty content }">
-					<c:forEach items="${content }" var="dto">
 					<tr>
-						<td>${dto.getBoard_no() }</td>
-						<td>${dto.getBoard_writer() }</td>
-						
-						<td>${dto.getBoard_title() }</td>
-						<td>${dto.getBoard_cont() }</td>
-						<td>${dto.getBoard_pwd() }</td>
-						<td>${dto.getBoard_hit() }</td>
-						<td>${dto.getBoard_date() }</td>
-						<td>${dto.getBoard_update() }</td>
+						<td>${content.getBoard_no() }</td>
+						<td>${content.getBoard_writer() }</td>
+						<td>${content.getBoard_title() }</td>
+						<td>${content.getBoard_cont() }</td>
+						<td>${content.getBoard_pwd() }</td>
+						<td>${content.getBoard_hit() }</td>
+						<td>${content.getBoard_date() }</td>
 					</tr>
-					</c:forEach>
 				</c:if>
 				<c:if test="${empty content }">
 					<tr>
@@ -49,6 +45,20 @@
 			
 			</table>
 			<br><br>
+			
+		
+			<input type="button" value="수정하기" 
+			onclick="location.href='update.go?num=${content.getBoard_no()}'">
+			
+			<c:url var="deleteURL" value="delete_ok.go">
+	       		<c:param name="number" value="${content.getBoard_no()}" />
+	   	    </c:url>   
+    	      		
+	          <input type="button" value="회원삭제"
+	          onclick="if(confirm('삭제하시겠습니까?')) {
+	           location.href='${deleteURL}' 
+	           } else {return;}">
+			
 			<input type="button" value="목록으로" onclick="location.href='select.go'">
 			<hr>
 		</div>

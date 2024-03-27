@@ -160,5 +160,103 @@ public class BoardDAO {
 					} finally {
 						closeConn(pstmt, con, rs);
 					} return dto;
-				}
+				}//메서드 end
+					//board 테이블에 게시글을 추가하는 메서드
+			 	public int insertBoard(BoardDTO dto) {
+			 		int result=0, count=0;
+			 		openConn();
+			 		
+			 		sql= "select max(board_no) from board";
+			 		
+			 		try {
+			 			pstmt= con.prepareStatement(sql);
+			 			rs = pstmt.executeQuery();
+			 			if(rs.next()) {
+			 				count = rs.getInt(1)+1; //10(현재 DB board 테이블의 마지막 글 번호)+1
+			 			}
+			 			sql = "insert into board values(?, ?, ?, ?, ?, default, sysdate, '')";
+			 			
+			 			pstmt=con.prepareStatement(sql);
+			 			pstmt.setInt(1, count);
+			 			pstmt.setString(2, dto.getBoard_writer());
+			 			pstmt.setString(3, dto.getBoard_title());
+			 			pstmt.setString(4, dto.getBoard_cont());
+			 			pstmt.setString(5, dto.getBoard_pwd());
+			 			
+			 			result = pstmt.executeUpdate();
+			 			
+			 		} catch(Exception e) {
+			 			e.printStackTrace();
+			 		} finally {
+			 			closeConn(pstmt, con, rs);
+			 		} return result;
+				 		
+				 		
+				 	} //메서드 end
+			 		 //조회한 게시글 조회수를 증가시키는 메서드(만들어라)
+			 	
+			 	//게시글을 삭제하는 메서드
+			 	public int deleteBoard(int no) {
+	    			int result=0;
+	    			sql = "select * from board where board_no = ?";
+	    			
+	    			try {
+	    				openConn();
+	    				pstmt = con.prepareStatement(sql);   
+	    				pstmt.setInt(1, no);
+	    				
+	    				rs= pstmt.executeQuery();
+	    				
+	    				sql ="delete from board where board_no=?";
+						pstmt = con.prepareStatement(sql);   
+	    				pstmt.setInt(1, no);
+	    				
+	    				result = pstmt.executeUpdate();
+	    				
+	    			} catch(Exception e) {
+	    				e.printStackTrace();
+	    			} finally {
+	    				closeConn(pstmt, con);
+	    			} return result;
+	    		}//deleteBoard() 메서드 end
+			 	
+			 	//board 테이블에서 중간에 게시글이 삭제되는 경우
+	    		// 게시글 번호를 재정렬하는 메서드.
+	    		
+	    		public void updateBoardSequence(int no) {
+	    			openConn();
+	    			
+	    			sql= "update board set board_no = board_no -1 where board_no > ?";
+	    			try {
+	    			pstmt= con.prepareStatement(sql, no);
+	    			pstmt.setInt(1, no);
+	    			pstmt.executeUpdate();
+	    			
+	    			} catch(Exception e) {
+	    				e.printStackTrace();
+	    			} finally {
+	    				closeConn(pstmt, con);
+	    			}
+	    		} //메서드 end
+	    			//게시글 수정 메소드
+	    		public int updateBoard(BoardDTO dto) {
+	    			int okornot = 0;
+	    			
+	    			openConn();
+	    			sql = "update board set board_title=?, board_cont=?,"
+	    					+ "board_update=sysdate where board_no=?";
+	    			
+	    			try {
+	    				pstmt = con.prepareStatement(sql);
+	    				pstmt.setString(1, dto.getBoard_title());
+	    				pstmt.setString(2, dto.getBoard_cont());
+	    				pstmt.setInt(3, dto.getBoard_no());
+	    				
+	    				okornot = pstmt.executeUpdate();
+	    			} catch(Exception e) {
+	    				e.printStackTrace();
+	    			} finally {
+	    				closeConn(pstmt, con);
+	    			} return okornot;
+	    		}
 }
