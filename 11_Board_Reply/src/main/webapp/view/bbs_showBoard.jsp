@@ -46,8 +46,6 @@
 					<h3>내용이 음슴 ㅋ</h3></td>
 				</tr>
 			</c:if>
-				
-		
 		</table>
 		<br><br>
 		<input type="button" value="글수정" 

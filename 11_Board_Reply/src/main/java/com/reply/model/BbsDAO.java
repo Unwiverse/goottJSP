@@ -217,8 +217,106 @@ public class BbsDAO {
         		//게시글 삭제 메서드(만들어라)
         		
         		//게시글 수정 메서드(만들어라)
+        		public int updateBbs(BbsDTO dto) {
+        			int result=0;
+        			openConn();
+        			
+        			sql="select * from jsp_bbs where board_no =?";
+        			
+        			try {
+        				pstmt = con.prepareStatement(sql);
+        				pstmt.setInt(1, dto.getBoard_no());
+        				
+        				rs = pstmt.executeQuery();
+        				
+        				if(rs.next()) {
+        					if(dto.getBoard_pwd().equals(rs.getString("board_pwd"))) {
+        						sql = "update jsp_bbs set board_title = ?, board_cont =?, "
+        								+ "board_update = sysdate where board_no =?";
+        						
+        					pstmt = con.prepareStatement(sql);
+        					pstmt.setString(1, dto.getBoard_title());
+        					pstmt.setString(2, dto.getBoard_cont());
+        					pstmt.setInt(3, dto.getBoard_no());
+        					
+        					result = pstmt.executeUpdate();
+        					} else { //비번 틀림
+        						result = -1;
+        					}
+        				}
+        				
+        				
+        			}catch(Exception e) {
+        				e.printStackTrace();
+        			} finally {
+        				closeConn(pstmt, con, rs);
+        			} return result;
+        			
+        		}//updateBbs() 메서드 end 
         		
-    
+        		//jsp_bbs 테이블에서 게시글 삭제 메서드(어려움)
+        		public int deleteBbs(int no, String pwd, int group, int step) {
+        			int result=0;
+        			openConn();
+        			sql ="select * from jsp_bbs where board_no =?";
+        			try {
+        				pstmt = con.prepareStatement(sql);
+        				
+        				pstmt.setInt(1, no);
+        				rs= pstmt.executeQuery();
+        				if(rs.next()) {
+        					if(pwd.equals(rs.getString("board_pwd"))) {
+        						//비밀번호가 일치하는 경우
+        						if(rs.getInt("board_step") ==0) {//원글인 경우
+        							sql ="update jsp_bbs set board_title = ?, board_cont=? "
+        									+ "where board_no =?";
+        							
+        							pstmt = con.prepareStatement(sql);	
+        							
+        							pstmt.setString(1, "[원글] 삭제된 게시글");
+        							pstmt.setString(2, "삭제된 게시글입니다");
+        							pstmt.setInt(3, no);
+        							 result = pstmt.executeUpdate();
+        						} else if(rs.getInt("board_step")>0) {//댓글일 때
+        							sql = "delete from jsp_bbs where board_no =?";
+        							pstmt= con.prepareStatement(sql);
+        							
+        							pstmt.setInt(1, no);
+        							pstmt.executeUpdate();
+        							//글번호 재작업이 돼야함
+        							sql = "update jsp_bbs set board_no = board_no-1,"
+        									+ "board_group=board_group-1 where board_no > ?";
+        							pstmt = con.prepareStatement(sql);
+        							
+        							pstmt.setInt(1, no);
+        							pstmt.executeUpdate();
+        							
+        							sql = "update jsp_bbs "
+        									+ "set board_step = board_step-1,"
+        									+ " board_group = board_group-1 "
+        									+ " where board_group=? "
+        									+ "and board_step > ?";
+        							
+        							pstmt= con.prepareStatement(sql);
+        							pstmt.setInt(1, group-1);
+        							pstmt.setInt(2, step);
+        							pstmt.executeUpdate();
+        							
+        							result = -2;
+        							
+        						}
+        					} else {
+        						//비번이 틀림
+        						result = -1;
+        					}
+        				}
+        				
+        			} catch(Exception e) {
+        				e.printStackTrace();
+        			} finally {
+        				closeConn(pstmt, con, rs);
+        			} return result;
+        		} //메서드 end
         	
         	
         	

@@ -27,17 +27,16 @@
 					<c:forEach items="${list }" var="dto">
 						<tr>
 							<td>${dto.getBoard_no()}</td>
-			<td>
-				<%-- 댓글인 경우 --%>
-				<c:if test="${dto.getBoard_indent() !=0}">
-					<c:forEach begin="1" end="${dto.getBoard_indent() }">
-						&nbsp;&nbsp;&nbsp;
-					</c:forEach>
-				</c:if>
-				<a href="<%=request.getContextPath() %>/bbs_content.go?num=${dto.getBoard_no()}">
-				${dto.getBoard_title() }</a>
-			</td>
-							
+<td>
+	<%-- 댓글인 경우 --%>
+	<c:if test="${dto.getBoard_indent() !=0}">
+		<c:forEach begin="1" end="${dto.getBoard_indent() }">
+			&nbsp;&nbsp;&nbsp;
+		</c:forEach>
+	</c:if>
+	<a href="<%=request.getContextPath() %>/bbs_content.go?no=${dto.getBoard_no()}">
+	${dto.getBoard_title() }</a>
+</td>
 							<td>${dto.getBoard_hit() }</td>
 							<td>${dto.getBoard_date().substring(0, 10) }</td>
 							<td>${dto.getBoard_group() }</td>
@@ -76,6 +75,5 @@
 			</form>
 			
  		</div>
-		
 </body>
 </html>
