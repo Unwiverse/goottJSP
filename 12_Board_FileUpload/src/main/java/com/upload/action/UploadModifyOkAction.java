@@ -22,7 +22,7 @@ public class UploadModifyOkAction implements Action {
 		
 		//파일 업로드 할 땐 설정할 내용이 있음.
 		// 1. 첨부파일이 저장될 경로 설정.
-		String saveFolder = "C:\\NCS\\workspace(jsp)\\12_Board_FileUpload\\src\\main\\webapp\\upload";
+		String saveFolder = "C:\\Users\\goott3\\git\\goottJSP\\12_Board_FileUpload\\src\\main\\webapp\\upload";
 		
 		// 2. 첨부 파일의 크기 설정.
 		int fileSize = 10 *  1024 * 1024; //1024 = 1KB, 1024*1024 = 1MB, 10 * 1024 * 1024 = 10MB

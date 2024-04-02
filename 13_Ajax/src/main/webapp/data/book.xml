@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<books>
+
+	<book>
+		<title>이것이 자바다</title>
+		<author>신용권</author>
+		<price>36,000원</price>
+	</book>
+	
+	<book>
+		<title>하악하악</title>
+		<author>이외수</author>
+		<price>?</price>
+	</book>
+	
+	<book>
+		<title>동의보감</title>
+		<author>허준</author>
+		<price>?</price>
+	</book>
+
+</books>

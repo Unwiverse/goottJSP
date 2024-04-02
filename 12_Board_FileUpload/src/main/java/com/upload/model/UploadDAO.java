@@ -227,5 +227,49 @@ public class UploadDAO {
 				 } finally {
 					 closeConn(pstmt, con, rs);
 				 } return result;
-			 }
+			 } //메서드 end
+			 	//upload 테이블의 게시글 번호에 맞는 게시글 삭제
+			 	public int deleteUpload(int no) {
+			 		int result = 0;
+			 		openConn();
+			 		sql = "delete from upload where upload_no=?";
+			 		
+			 		try {
+			 			pstmt =con.prepareStatement(sql);
+			 			pstmt.setInt(1, no);
+			 			
+			 			result = pstmt.executeUpdate();
+			 			
+			 		} catch(Exception e) {
+			 			e.printStackTrace();
+			 		} finally {
+			 			closeConn(pstmt, con);
+			 		} return result;
+			 	} //메서드 end
+			 		//게시글 삭제 시 번호 재정렬 메서드
+			 	public void updateSequence(int no) {
+			 		openConn();
+			 		
+			 		sql = "update upload set upload_no = upload_no -1 where upload_no > ?";
+			 		
+			 		try {
+			 			pstmt = con.prepareStatement(sql);
+			 			pstmt.setInt(1, no);
+			 			pstmt.executeUpdate();
+			 			
+			 		} catch(Exception e) {
+			 			e.printStackTrace();
+			 		} finally {
+			 			closeConn(pstmt, con);
+			 		}
+			 	}
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
 }
