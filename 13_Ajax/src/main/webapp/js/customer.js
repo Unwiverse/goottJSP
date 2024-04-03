@@ -89,4 +89,33 @@ $(function() {
 			}
 		});
 	});
+	// 삭제버튼을 클릭하면 생기는 이벤트
+	// 동적으로 삭제 버튼이 만들어진 태그는 제이쿼리에서 on() 함수를 써야함
+	// 형식) on("click" or "change" 같은 이벤트 이름, "이벤트 적용될 선택자 또는 태그",  동작함수(무명함수))
+	$("table").on("click", "#del", function() {
+			$.ajax({
+				url: "/13_Ajax/delete.go",
+				data:{no: $(this).attr("num")},
+				dataType: "text",
+				success: function() {
+					if(res>0) {
+						alert("고객이 없어졌음");
+						
+						getData(); //삭제된 나머지 리스트 재출력
+					} else {
+						alert("고객이 안없어졌")
+					}
+				},
+				error: function() {
+					alert("데통오");
+				}				
+			});
+	});
+	
+	
+	
+	
+	
+	
+	
 });

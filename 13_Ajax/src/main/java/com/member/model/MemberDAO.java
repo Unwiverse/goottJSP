@@ -142,7 +142,7 @@ public class MemberDAO {
 	    				closeConn(pstmt, con, rs);
 	    			} return result;
 	    			
-	    		}//idChecl() 메서드 end
+	    		}//idCheck() 메서드 end
 	    			//입력 폼에서 넘어온 데이터들을 customer 테이블에 저장하는 메서드
 	    		public int insertCustomer(CustDTO dto) {
 	    			int result=0, count=0;
@@ -175,6 +175,33 @@ public class MemberDAO {
 	    				closeConn(pstmt, con, rs);
 	    			} return result;
 	    			
-	    		} 
+	    		} //메서드 end
+	    			//넘겨받은 고객 번호에 해당하는 사람을 customer 테이블에서 없애버리는 메서드
+	    		public int deleteCustomer(int no) {
+	    			int result=0;
+	    			
+	    			openConn();
+	    			sql ="delete from customer where num=?";
+	    			try {
+	    				pstmt = con.prepareStatement(sql);
+	    				pstmt.setInt(1, no);
+	    				result = pstmt.executeUpdate();
+	    				
+	    				if(result > 0) {
+	    					sql = "update customer set num = num -1 "
+	    							+ "where num > ?";
+	    					pstmt = con.prepareStatement(sql);
+		    				pstmt.setInt(1, no);
+		    				pstmt.executeUpdate();
+	    				} else { 
+	    					
+	    				}
+	    			} catch(Exception e) {
+	    				e.printStackTrace();
+	    			} finally {
+	    				closeConn(pstmt, con);
+	    			} return result;
+	    		} //메서드 end
+	    		
 	    	
 }

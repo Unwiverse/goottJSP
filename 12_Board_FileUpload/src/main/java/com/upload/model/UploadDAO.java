@@ -113,7 +113,7 @@ public class UploadDAO {
 				}
 				
 				sql ="insert into upload values(?, ?, ?, ?, ?, ?, default, sysdate, '')";
-				pstmt = con.prepareCall(sql);
+				pstmt = con.prepareStatement(sql);
 				
 				pstmt.setInt(1, count);
 				pstmt.setString(2, dto.getUpload_writer());
