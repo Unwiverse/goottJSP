@@ -1,4 +1,4 @@
-package com.reply2.controller;
+package com.shop.controller;
 
 import java.io.FileInputStream;
 
@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.reply2.action.Action;
-import com.reply2.action.ActionForward;
 
 
 public class FrontController extends HttpServlet {
@@ -58,7 +56,7 @@ public class FrontController extends HttpServlet {
 		 * 
 		 */
 		
-		 FileInputStream fis = new FileInputStream("C:\\Users\\goott3\\git\\goottJSP\\15_Board_Reply2\\src\\main\\java\\com\\reply2\\controller\\mapping.properties");
+		 FileInputStream fis = new FileInputStream("C:\\Users\\goott3\\git\\goottJSP\\16_MiniShopMall\\src\\main\\java\\com\\shop\\controller\\mapping.properties");
 		 prop.load(fis);
 		 String value = prop.getProperty(command);
 		 System.out.println("value: "+value);
