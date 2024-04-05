@@ -6,6 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+	function check(num) {
+		let res = confirm('카테고리를 진짜 없애버리겟나');
+		if(res) {
+			location.href="admin_category_delet.go?cnum="+num;
+		}
+	} 
+
+</script>
 </head>
 <body>
 	<jsp:include page="../include/admin_header.jsp" />

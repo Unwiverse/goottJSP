@@ -121,5 +121,40 @@ public class CategoryDAO {
 			} finally {
 				closeConn(pstmt, con, rs);
 			} return list;
-		}
+		} //메서드 end
+		 //카테고리 번호에 해당하는 카테고리를 테이블에서 읎애버리는 메썯
+		public int deleteCategory(int num) {
+			int result=0;
+			
+			openConn();
+			sql = "delete from shop_category where category_num =?";
+			
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, num);
+				result = pstmt.executeUpdate();
+				
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				closeConn(pstmt, con);
+			} return result;
+		} //메서드 end
+		 //카테고리 삭제 시 번호 재정렬 메서드
+		 public void updateSequence(int no) {
+			 openConn();
+			 sql = "update shop_category set category_num = category_num-1 where category_num >?";
+			 
+			 try {
+				 pstmt = con.prepareStatement(sql);
+				 pstmt.setInt(1, no);
+				 pstmt.executeUpdate();
+				 
+			 } catch(Exception e) {
+				 e.printStackTrace();
+			 } finally {
+				 closeConn(pstmt, con);
+			 } 
+		 }
 }
