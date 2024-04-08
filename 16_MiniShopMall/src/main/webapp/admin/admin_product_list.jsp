@@ -7,6 +7,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+	function del(pnum) {
+		let res = confirm("ㄹㅇ?");
+		if(res) {
+			location.href ="admin_product_delete.go?pnum="+pnum;
+		}
+		
+	}
+
+</script>
 </head>
 <body>
 		<jsp:include page="../include/admin_header.jsp" />
@@ -44,7 +54,6 @@
 								수정&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;</a>
 								 <a href="javascript:del(${dto.getPnum() })">삭제</a>
 							</td>
-							
 						</tr>
 					</c:forEach>
 				</c:if>

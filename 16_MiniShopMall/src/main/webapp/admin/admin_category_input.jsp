@@ -9,8 +9,6 @@
 <body>
 	<jsp:include page="../include/admin_header.jsp" />
 	
-	
-	
 	<hr>
 		<h3>카테고리 등록 폼 페이지</h3>
 	<hr>
@@ -20,7 +18,6 @@
 			<tr>
 				<th>카테고리 Code</th>
 				<td> <input name="category_code"></td>
-				
 			</tr>
 			
 			<tr>
@@ -37,8 +34,7 @@
 				</td>
 			</tr>
 		</table>
-		
-	</form>
+	   </form>
 	
 	<jsp:include page="../include/admin_footer.jsp" />
 

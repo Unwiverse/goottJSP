@@ -10,7 +10,7 @@
 	function check(num) {
 		let res = confirm('카테고리를 진짜 없애버리겟나');
 		if(res) {
-			location.href="admin_category_delet.go?cnum="+num;
+			location.href="admin_category_delete.go?cnum="+num;
 		}
 	} 
 

@@ -133,7 +133,102 @@ public class ProductDAO {
     			 } finally {
     				 closeConn(pstmt, con, rs);
     			 } return list;
-    		}
+    		} //멧드 end
+		//제품번호에 해당하는 제품의 상세 정보를 조회하는 메서드
+		public ProductDTO getProductContent(int num) {
+			ProductDTO dto = null;
+			
+			openConn();
+			
+			sql = "select * from shop_products where pnum =?";
+			
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, num);
+				
+				rs= pstmt.executeQuery();
+				
+				if(rs.next()) {
+					dto = new ProductDTO();
+				 dto.setPnum(rs.getInt("pnum"));
+				 dto.setPname(rs.getString("pname"));
+				 dto.setPcategory_fk(rs.getString("pcategory_fk"));
+				 dto.setPcompany(rs.getString("pcompany"));
+				 dto.setPimage(rs.getString("pimage"));
+				 dto.setPqty(rs.getInt("pqty"));
+				 dto.setPrice(rs.getInt("price"));
+				 dto.setPspec(rs.getString("pspec"));
+				 dto.setPoint(rs.getInt("point"));
+				 dto.setPcontent(rs.getString("pcontents"));
+				 dto.setPinputdate(rs.getString("pinputdate"));
+				 
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				closeConn(pstmt, con, rs);
+			} return dto;
+		} //메서드 end
+		//제품번호에 해당하는 제품의 정보를 수정하는 메서드.
+		public int updateProduct(ProductDTO dto) {
+			int result = 0;
+			openConn();
+			
+			
+			try {
+				sql ="update shop_products set pimage = ?, pqty=?, price=?, pspec=?, pcontents=?, point=? where pnum=?";
+				pstmt =con.prepareStatement(sql);
+				pstmt.setString(1, dto.getPimage());
+				pstmt.setInt(2, dto.getPqty());
+				pstmt.setInt(3, dto.getPrice());
+				pstmt.setString(4, dto.getPspec());
+				pstmt.setString(5, dto.getPcontents());
+				pstmt.setInt(6, dto.getPoint());
+				pstmt.setInt(7, dto.getPnum());
+				
+				result = pstmt.executeUpdate();
+			}catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				closeConn(pstmt, con);
+			} return result;
+		} //메섣 end
+		//제품번호에 맞는 제품을 테이블에서 삭제하는 메서드
+		public int deleteProduct(int pnum) {
+			int result=0;
+			openConn();
+			sql = "delete from shop_products where pnum=?";
+			
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, pnum);
+				
+				result = pstmt.executeUpdate();	
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				closeConn(pstmt, con);
+			} return result;
+		} //메서드 end
+		//상품 삭제 시 상품 순번 재정렬 메서드
+		public void updateSequence(int no) {
+		
+			openConn();
+			
+			sql = "update shop_products set pnum= pnum-1 where pnum>?";
+			//pnum이 ?값보다 큰 속성을 찾아서 -1 한다
+			
+			try {
+				pstmt=con.prepareStatement(sql);
+				pstmt.setInt(1, no);
+				pstmt.executeUpdate();
+			} catch(Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				closeConn(pstmt, con);
+			} 
+		} //메서드 end
     		 
     			
     		

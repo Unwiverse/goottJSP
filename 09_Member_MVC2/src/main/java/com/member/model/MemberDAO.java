@@ -10,9 +10,7 @@ import javax.sql.DataSource;
 
 
 public class MemberDAO {
-		
-	
-	    private Connection con = null;
+		private Connection con = null;
 	    private PreparedStatement pstmt = null;
 	    private ResultSet rs = null;
 	    private String sql = null;

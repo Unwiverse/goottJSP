@@ -13,10 +13,7 @@
 <body>
 	<jsp:include page="../include/admin_header.jsp" />
 	
-	 <!-- 모달 버튼 -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  		ㅋㅋㅋ
-	</button>
+	 
 	
 		<hr>
 			<h2>상품 등록 폼 페이지</h2>
@@ -28,7 +25,7 @@
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">상품 등록 팝업</h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
 	      <div class="modal-body">
@@ -125,6 +122,11 @@
 	    </div>
 	  </div>
 	</div>
+	
+	<!-- 모달 버튼 -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  		등록하기
+	</button>
     
 		
 		
