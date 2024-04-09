@@ -8,6 +8,48 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 20px;
+    }
+    .product-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    .product-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+    .product-card {
+        text-align: center;
+        width: 250px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+    .product-card img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+    .product-title {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    .product-price {
+        color: #007bff;
+        font-weight: bold;
+    }
+    .product-point {
+        color: #28a745;
+    }
+</style>
 </head>
 <body>
 		<jsp:include page="../include/user_header.jsp" />
@@ -35,7 +77,8 @@
 		   							 src="<%=request.getContextPath() %>/upload/${dto.getPimage() }">
 		   						</a>
 		   						<br>
-		   						${dto.getPname() }<br>
+		   						${dto.getPname() }
+		   						<br>
 		   						<fmt:formatNumber value="${dto.getPrice() }" />원 <br>
 		   						<fmt:formatNumber value="${dto.getPoint() }" var="commaPoint"/>
 		   							 ${commaPoint } 포인트

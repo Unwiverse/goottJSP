@@ -83,12 +83,15 @@
 					<tr>
 						<th>상품 사양</th>
 							<td>  
-								<select name="p_spec">
+								<div class="form-floating">
+								<select name="p_spec" class="form-select" id="floatingSelect" aria-label="Floating label select example">
 								  <option value="none" selected>일반</option>
 								  <option value="hit" >인기</option>
 								  <option value="new" >신상</option>
 								  <option value="recommend" >추천</option>
 								</select>
+								<label for="floatingSelect">사양=분류</label>
+								</div>
 							</td>
 					</tr>
 					

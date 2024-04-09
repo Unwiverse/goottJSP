@@ -38,6 +38,7 @@ public class UserLoginOkAction implements Action {
 			
 			session.setAttribute("UserID", cont.getMemid());
 			session.setAttribute("UserName", cont.getMemname());
+			
 			forward.setRedirect(false);
 			forward.setPath("user_main.go");
 			

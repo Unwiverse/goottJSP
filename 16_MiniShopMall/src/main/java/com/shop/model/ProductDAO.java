@@ -229,6 +229,43 @@ public class ProductDAO {
 				closeConn(pstmt, con);
 			} 
 		} //메서드 end
+		 //카테고리 코드에 해당하는 제품의 전체 리스트를 조회하는 메서드.
+		public List<ProductDTO> getProductList(String code) {
+			
+			List<ProductDTO> list = new ArrayList<ProductDTO>();
+			
+			openConn();
+			
+			sql = "select * from shop_products where pcategory_fk =?";
+			
+			 try {
+				 pstmt = con.prepareStatement(sql);
+				
+				 pstmt.setString(1, code);
+				 rs = pstmt.executeQuery();
+				 while(rs.next()) {
+					 ProductDTO dto = new ProductDTO();
+					 
+					 dto.setPnum(rs.getInt("pnum"));
+					 dto.setPname(rs.getString("pname"));
+					 dto.setPcategory_fk(rs.getString("pcategory_fk"));
+					 dto.setPcompany(rs.getString("pcompany"));
+					 dto.setPimage(rs.getString("pimage"));
+					 dto.setPqty(rs.getInt("pqty"));
+					 dto.setPrice(rs.getInt("price"));
+					 dto.setPspec(rs.getString("pspec"));
+					 dto.setPoint(rs.getInt("point"));
+					 dto.setPcontent(rs.getString("pcontents"));
+					 dto.setPinputdate(rs.getString("pinputdate"));
+					 list.add(dto);
+				 }
+				 
+			 } catch(Exception e) {
+				 e.printStackTrace();
+			 } finally {
+				 closeConn(pstmt, con, rs);
+			 } return list;
+		}
     		 
     			
     		
